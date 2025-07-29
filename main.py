@@ -16,8 +16,8 @@ client = OpenAI(
     api_key=AI_API_TOKEN,
 )
 
-with open("aiSystem", "r", encoding="utf-8") as file:
-    SYS_PROMPT = file.read()
+with open("aiConfig.md", "r", encoding="utf-8") as file:
+    SYS_CONFIG = file.read()
 
 
 memory = []
@@ -28,7 +28,7 @@ def ai_request(memory: list):
         messages=[
             {
                 "role": "system",
-                "content": SYS_PROMPT,  
+                "content": SYS_CONFIG,  
             },
             *memory               # Desempacota a lista de mensagens trocadas (usuário e assistente)
         ],
@@ -69,5 +69,5 @@ while True:
     prompt = input("\nVocê: ")           # Recebe entrada do usuário
     ai_response, ai_function = ai_conversation(prompt)   # Obtém resposta da IA (resposta e função)
     print(f"\nIA: {ai_response}")           # Exibe resposta no terminal
-    print(f"\nFUNC: <{ai_function}>")           # Exibe resposta no terminal
+    print(f"\nFUNC: {ai_function}")           # Exibe resposta no terminal
 
