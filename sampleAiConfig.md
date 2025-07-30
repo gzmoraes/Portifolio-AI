@@ -23,7 +23,11 @@ About: <portf_about>
 Location: <portf_location>
 Expertise: <portf_expertise>
 Languages: <portf_languages>
-
+Github: <portf_github>
+LinkedIn: <portf_linkedin>
+Site: <portf_site>
+Graduation: <portf_graduation>
+Skills: <portf_skills>
 
 # RESPONSE FORMAT
 
