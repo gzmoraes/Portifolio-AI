@@ -1,9 +1,10 @@
 import os                             
 from openai import OpenAI, BadRequestError, AuthenticationError        
 from dotenv import load_dotenv     
-from ast import literal_eval   
+from ast import literal_eval
+import logging
 
-global memory
+logging.basicConfig(level=logging.INFO)
 
 # Carrega variáveis de ambiente do arquivo .env, sobrescrevendo valores existentes, se necessário
 load_dotenv(override=True)
@@ -34,26 +35,25 @@ def ai_request(memory: list):
                     "role": "system",
                     "content": SYS_CONFIG,  
                 },
-                *memory               # Desempacota a lista de mensagens trocadas (usuário e assistente)
+                *memory         # Desempacota a lista de mensagens trocadas (usuário e assistente)
             ],
-            temperature=1,            # Grau de criatividade (quanto maior, mais criativo)
+            temperature=1,             # Grau de criatividade (quanto maior, mais criativo)
             top_p=1,                  # Probabilidade acumulada para amostragem (nucleus sampling)
             model=model               # Modelo escolhido
         ).choices[0].message.content
 
-        assist_memory = True
-        
-        print()
-        print(response)
-        print()
+        logging.info(f"Response: {response}")  # Loga a resposta recebida
         
         response = literal_eval(response)
         
         if type(response) != dict or "response" not in response or "function" not in response:
-            raise TypeError
+            raise SyntaxError
 
+        assist_memory = True
        
-    except (BadRequestError, TypeError):
+    except (BadRequestError, SyntaxError):
+        logging.warning("Bad request or syntax error in response.")
+        
         assist_memory = False
         
         memory.pop()
@@ -62,6 +62,8 @@ def ai_request(memory: list):
         # Incluir script para apagar ultima mensagem enviada pelo usuário na tela
         
     except AuthenticationError:
+        logging.error("Authentication error. Check your API token.")
+        
         assist_memory = False
         
         memory.pop()
@@ -71,10 +73,12 @@ def ai_request(memory: list):
         return response
 
 # Função que registra o prompt do usuário, obtém a resposta da IA e atualiza a memória da conversa
-def ai_conversation(prompt):
+def ai_conversation(user_prompt):
+    logging.info(f"Prompt: {user_prompt}")  # Loga a resposta recebida
+    
     memory.append({
         "role": "user",
-        "content": prompt
+        "content": user_prompt
     })
 
     json_response = ai_request(memory)
