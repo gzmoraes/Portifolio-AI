@@ -7,9 +7,6 @@ import logging
 
 class AIBot(OpenAI):
     def __init__(self):
-        self.__setup()
-    
-    def __setup(self):
         logging.basicConfig(level=logging.INFO) # Configura o nível de log para INFO
 
         # Carrega variáveis de ambiente do arquivo .env, sobrescrevendo valores existentes, se necessário
@@ -28,7 +25,7 @@ class AIBot(OpenAI):
         with open("aiConfig.md", "r", encoding="utf-8") as file:
             self.SYS_CONFIG = file.read()
 
-        self.memory = []
+        self.memory = []    
     
     def ai_conversation(self, user_prompt: str):
         logging.info(f"Prompt: {user_prompt}")  # Loga a resposta recebida
@@ -38,17 +35,15 @@ class AIBot(OpenAI):
             "content": user_prompt
         })
 
-        self.json_response = self.__ai_request()
-        self.ai_response = self.json_response["response"]
-        self.ai_function = self.json_response["function"]
+        self.dict_response = self.__ai_request()
         
         if self.memory_flag:
             self.memory.append({
                 "role": "assistant",
-                "content": f"{self.json_response}"
+                "content": f"{self.dict_response["response"]}"
             })
 
-        return (self.ai_response, self.ai_function)
+        return self.dict_response
     
     def __ai_request(self):
         try:
@@ -94,10 +89,11 @@ class AIBot(OpenAI):
             return response
     
     
-if __name__ == "__main__":
-    AI = AIBot()
-    while True:
-        user_prompt = input("\nVocê: ")             # Recebe entrada do usuário
-        ai_response, ai_function = AI.ai_conversation(user_prompt)   # Obtém resposta da IA (resposta e função)
-        print(f"\nIA: {ai_response}")          # Exibe resposta no terminal
-        print(f"\nFUNC: {ai_function}")        # Exibe resposta no terminal
+# # Testando a classe AIBot
+# if __name__ == "__main__":
+#     AI = AIBot()
+#     while True:
+#         user_prompt = input("\nVocê: ")             # Recebe entrada do usuário
+#         response = AI.ai_conversation(user_prompt)   # Obtém resposta da IA (resposta e função)
+#         print(f"\nIA: {response["response"]}")          # Exibe resposta no terminal
+#         print(f"\nFUNC: {response["function"]}")        # Exibe resposta no terminal
