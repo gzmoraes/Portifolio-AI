@@ -55,17 +55,11 @@ Portifolio-AI/
 │   ├── vite.config.js              # Configuração Vite
 │   └── eslint.config.js            # Configuração ESLint
 ├── server/                          # Backend Python
-│   ├── env/                        # Ambiente virtual Python
 │   ├── app/
 │   │   ├── __init__.py             # Configuração Flask e rotas
 │   │   └── ai.py                   # Classe AIBot e lógica principal
-│   ├── test/                       # Arquivos de teste
-│   │   ├── test.py
-│   │   └── backup.py
 │   ├── main.py                     # Ponto de entrada do servidor
 │   ├── createConfig.py             # Script para criar configurações
-│   ├── functions_schema.py         # Schema das funções AI
-│   ├── functions.py                # Implementação das funções
 │   ├── aiConfig.md                 # Configuração do comportamento da IA
 │   ├── sampleAiConfig.md           # Template de configuração
 │   ├── requirements.txt            # Dependências Python
