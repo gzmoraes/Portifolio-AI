@@ -78,7 +78,7 @@ class AIBot:
                     "properties": {
                         "ai_response": {
                             "type": "string",
-                            "description": "A concise text response to the user's message.",
+                            "description": "Respond briefly; no need to be verbose.",
                         }
                     },
                     "required": ["ai_response"],

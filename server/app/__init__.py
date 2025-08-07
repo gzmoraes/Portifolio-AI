@@ -4,7 +4,7 @@ from .ai import AIBot
 
 App = Flask(__name__)
 CORS(App)  # Enable CORS for all routes
-Ai = AIBot()
+ai = AIBot()
 
 
 # @App.route("/")
@@ -16,7 +16,7 @@ Ai = AIBot()
 def prompt():
     data = request.get_json()  # Obtém os dados JSON da requisição
     user_input = data.get("input")  # Extrai o input da requisição
-    dict_response = Ai.chat(user_input)
+    dict_response = ai.ai_chat(user_input)
 
     # Retorna a resposta como JSON
     return jsonify(dict_response)
