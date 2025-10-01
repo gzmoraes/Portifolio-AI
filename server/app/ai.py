@@ -1,4 +1,5 @@
 import os
+import sys
 import logging
 from dotenv import load_dotenv
 import json
@@ -10,11 +11,17 @@ class AIBot:
     def __init__(self):
         self.MODELS = [".1", ".1-mini", ".1-nano", "o", "o-mini"]
 
-        self.tools = []  # Lista para armazenar as ferramentas (funções) que a IA pode chamar
-        self.memory = []  # Lista para armazenar o histórico de conversas (mensagens trocadas)
+        self.tools = (
+            []
+        )  # Lista para armazenar as ferramentas (funções) que a IA pode chamar
+        self.memory = (
+            []
+        )  # Lista para armazenar o histórico de conversas (mensagens trocadas)
         self.ai_raw_response = None  # Variável para armazenar a resposta bruta da IA
         self._new_prompt = None  # Variável para armazenar um novo prompt, se necessário
-        self.response = {}  # Dicionário para armazenar a resposta final da IA e as funções chamadas
+        self.response = (
+            {}
+        )  # Dicionário para armazenar a resposta final da IA e as funções chamadas
 
         logging.basicConfig(level=logging.INFO)  # Configura o nível de log para INFO
 
@@ -233,6 +240,12 @@ class AIBot:
 
 # Testando a classe AIBot
 if __name__ == "__main__":
+    # Muda para o diretório server para encontrar os arquivos
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    server_dir = os.path.dirname(script_dir)
+    os.chdir(server_dir)
+
+    sys.path.append("..")  # Adiciona o diretório raiz do projeto ao sys.path
     AI = AIBot()
     while True:
         user_input = input("\nVocê: ")  # Recebe entrada do usuário
